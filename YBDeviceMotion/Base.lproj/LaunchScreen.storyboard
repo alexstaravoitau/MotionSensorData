@@ -29,6 +29,7 @@
                             </label>
                             <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="meter_icon" translatesAutoresizingMaskIntoConstraints="NO" id="eXD-Sz-ibQ">
                                 <rect key="frame" x="248" y="336" width="103" height="88"/>
+                                <color key="tintColor" red="0.76643386989999995" green="0.76643386989999995" blue="0.76643386989999995" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="103" id="Mmn-0E-ERl"/>
                                     <constraint firstAttribute="height" constant="88" id="MoS-Sd-82n"/>
