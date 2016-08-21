@@ -33,10 +33,10 @@ final class MotionInfoViewController: UITableViewController {
     private func startAccelerometerUpdates() {
         if motionManager.accelerometerAvailable {
             motionManager.accelerometerUpdateInterval = 0.1
-            motionManager.startAccelerometerUpdatesToQueue(NSOperationQueue.mainQueue(), withHandler: { (accelerometerData, error) in
+            motionManager.startAccelerometerUpdatesToQueue(NSOperationQueue.mainQueue()) { (accelerometerData, error) in
                 self.setAccelerationData(accelerometerData?.acceleration, forSection: .RawAccelerometerData)
                 self.logError(error, forSensor: .Accelerometer)
-            })
+            }
         }
     }
     
@@ -46,10 +46,10 @@ final class MotionInfoViewController: UITableViewController {
     private func startGyroUpdates() {
         if motionManager.gyroAvailable {
             motionManager.gyroUpdateInterval = 0.1
-            motionManager.startGyroUpdatesToQueue(NSOperationQueue.mainQueue(), withHandler: { (gyroData, error) in
+            motionManager.startGyroUpdatesToQueue(NSOperationQueue.mainQueue()) { (gyroData, error) in
                 self.setRotationRateData(gyroData?.rotationRate, forSection: .RawGyroData)
                 self.logError(error, forSensor: .Gyro)
-            })
+            }
         }
     }
     
@@ -59,10 +59,10 @@ final class MotionInfoViewController: UITableViewController {
     private func startMagnetometerUpdates() {
         if motionManager.magnetometerAvailable {
             motionManager.magnetometerUpdateInterval = 0.1
-            motionManager.startMagnetometerUpdatesToQueue(NSOperationQueue.mainQueue(), withHandler: { (magnetometerData, error) in
+            motionManager.startMagnetometerUpdatesToQueue(NSOperationQueue.mainQueue()) { (magnetometerData, error) in
                 self.setMagneticFieldData(magnetometerData?.magneticField, forSection: .RawMagnetometerData)
                 self.logError(error, forSensor: .Magnetometer)
-            })
+            }
         }
     }
     
@@ -72,12 +72,12 @@ final class MotionInfoViewController: UITableViewController {
     private func startDeviceMotionUpdates() {
         if motionManager.deviceMotionAvailable {
             motionManager.deviceMotionUpdateInterval = 0.1
-            motionManager.startDeviceMotionUpdatesToQueue(NSOperationQueue.mainQueue(), withHandler: { (deviceMotion, error) in
+            motionManager.startDeviceMotionUpdatesToQueue(NSOperationQueue.mainQueue()) { (deviceMotion, error) in
                 self.setAccelerationData(deviceMotion?.gravity, forSection: .DeviceMotionGravity)
                 self.setAccelerationData(deviceMotion?.userAcceleration, forSection: .DeviceMotionUserAcceleration)
                 self.setRotationRateData(deviceMotion?.rotationRate, forSection: .DeviceMotionRotationRate)
                 self.logError(error, forSensor: .DeviceMotion)
-            })
+            }
         }
     }
 
