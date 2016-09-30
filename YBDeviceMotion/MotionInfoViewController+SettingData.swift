@@ -23,12 +23,12 @@ extension MotionInfoViewController {
      - parameter rotationRate: A `CMRotationRate` holding the values to set.
      - parameter section:      Section these values need to be applied to.
      */
-    internal func setRotationRateData(rotationRate: CMRotationRate?, forSection section: DataTableSection) {
+    internal func report(rotationRate: CMRotationRate?, inSection section: DataTableSection) {
         let units = "rad/s"
         
-        setValue(rotationRate?.x, forRow: .axisX, section: section, units: units, maxValue: 10)
-        setValue(rotationRate?.y, forRow: .axisY, section: section, units: units, maxValue: 10)
-        setValue(rotationRate?.z, forRow: .axisZ, section: section, units: units, maxValue: 10)
+        display(value: rotationRate?.x, forRow: .axisX, inSection: section, units: units, maxValue: 10)
+        display(value: rotationRate?.y, forRow: .axisY, inSection: section, units: units, maxValue: 10)
+        display(value: rotationRate?.z, forRow: .axisZ, inSection: section, units: units, maxValue: 10)
     }
     
     /**
@@ -37,12 +37,12 @@ extension MotionInfoViewController {
      - parameter acceleration: A `CMAcceleration` holding the values to set.
      - parameter section:      Section these values need to be applied to.
      */
-    internal func setAccelerationData(acceleration: CMAcceleration?, forSection section: DataTableSection) {
+    internal func report(acceleration: CMAcceleration?, inSection section: DataTableSection) {
         let units = "G"
         
-        setValue(acceleration?.x, forRow: .axisX, section: section, units: units, maxValue: 3)
-        setValue(acceleration?.y, forRow: .axisY, section: section, units: units, maxValue: 3)
-        setValue(acceleration?.z, forRow: .axisZ, section: section, units: units, maxValue: 3)
+        display(value: acceleration?.x, forRow: .axisX, inSection: section, units: units, maxValue: 3)
+        display(value: acceleration?.y, forRow: .axisY, inSection: section, units: units, maxValue: 3)
+        display(value: acceleration?.z, forRow: .axisZ, inSection: section, units: units, maxValue: 3)
     }
     
     /**
@@ -51,12 +51,12 @@ extension MotionInfoViewController {
      - parameter magnitude:     A `CMMagneticField` holding the values to set.
      - parameter section:      Section these values need to be applied to.
      */
-    internal func setMagneticFieldData(magnitude: CMMagneticField?, forSection section: DataTableSection) {
+    internal func report(magneticField: CMMagneticField?, inSection section: DataTableSection) {
         let units = "mT"
         
-        setValue(magnitude?.x, forRow: .axisX, section: section, units: units)
-        setValue(magnitude?.y, forRow: .axisY, section: section, units: units)
-        setValue(magnitude?.z, forRow: .axisZ, section: section, units: units)
+        display(value: magneticField?.x, forRow: .axisX, inSection: section, units: units)
+        display(value: magneticField?.y, forRow: .axisY, inSection: section, units: units)
+        display(value: magneticField?.z, forRow: .axisZ, inSection: section, units: units)
     }
     
     /**
@@ -69,13 +69,13 @@ extension MotionInfoViewController {
      - parameter minValue:  Minimum value, used for highlighting value changes with color. Default is 0.
      - parameter minValue:  Maximum value, used for highlighting value changes with color. Default it 0.
      */
-    private func setValue(value: Double? = nil, forRow row: DataTableRow, section: DataTableSection, units: String, minValue: Double = 0, maxValue: Double = 0) {
-        guard let cell = tableView.cellForRowAtIndexPath(NSIndexPath(forRow: row.rawValue, inSection: section.index)) else { return }
+    fileprivate func display(value: Double? = nil, forRow row: DataTableRow, inSection section: DataTableSection, units: String, minValue: Double = 0, maxValue: Double = 0) {
+        guard let cell = tableView.cellForRow(at: IndexPath(row: row.rawValue, section: section.index)) else { return }
 
         let valueString = value != nil ? String(format: "%.2f", arguments: [value!]) : "?"
         
         cell.detailTextLabel?.text = "\(valueString) \(units)"
-        cell.backgroundColor = maxValue > minValue ? row.color.colorWithAlphaComponent(CGFloat(abs(value ?? 0)/(maxValue - minValue))) : UIColor.clearColor()
+        cell.backgroundColor = maxValue > minValue ? row.color.withAlphaComponent(CGFloat(abs(value ?? 0)/(maxValue - minValue))) : UIColor.clear
     }
 }
 

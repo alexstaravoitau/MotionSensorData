@@ -23,19 +23,19 @@ final class MotionInfoViewController: UITableViewController {
     }
     
     /// CoreMotion manager instance we receive updates from.
-    private let motionManager = CMMotionManager()
+    fileprivate let motionManager = CMMotionManager()
     
     // MARK: - Configuring CoreMotion callbacks triggered for each sensor
     
     /**
      *  Configure the raw accelerometer data callback.
      */
-    private func startAccelerometerUpdates() {
-        if motionManager.accelerometerAvailable {
+    fileprivate func startAccelerometerUpdates() {
+        if motionManager.isAccelerometerAvailable {
             motionManager.accelerometerUpdateInterval = 0.1
-            motionManager.startAccelerometerUpdatesToQueue(NSOperationQueue.mainQueue()) { (accelerometerData, error) in
-                self.setAccelerationData(accelerometerData?.acceleration, forSection: .RawAccelerometerData)
-                self.logError(error, forSensor: .Accelerometer)
+            motionManager.startAccelerometerUpdates(to: OperationQueue.main) { (accelerometerData, error) in
+                self.report(acceleration: accelerometerData?.acceleration, inSection: .rawAccelerometerData)
+                self.log(error: error, forSensor: .accelerometer)
             }
         }
     }
@@ -43,12 +43,12 @@ final class MotionInfoViewController: UITableViewController {
     /**
      *  Configure the raw gyroscope data callback.
      */
-    private func startGyroUpdates() {
-        if motionManager.gyroAvailable {
+    fileprivate func startGyroUpdates() {
+        if motionManager.isGyroAvailable {
             motionManager.gyroUpdateInterval = 0.1
-            motionManager.startGyroUpdatesToQueue(NSOperationQueue.mainQueue()) { (gyroData, error) in
-                self.setRotationRateData(gyroData?.rotationRate, forSection: .RawGyroData)
-                self.logError(error, forSensor: .Gyro)
+            motionManager.startGyroUpdates(to: OperationQueue.main) { (gyroData, error) in
+                self.report(rotationRate: gyroData?.rotationRate, inSection: .rawGyroData)
+                self.log(error: error, forSensor: .gyro)
             }
         }
     }
@@ -56,12 +56,12 @@ final class MotionInfoViewController: UITableViewController {
     /**
      *  Configure the raw magnetometer data callback.
      */
-    private func startMagnetometerUpdates() {
-        if motionManager.magnetometerAvailable {
+    fileprivate func startMagnetometerUpdates() {
+        if motionManager.isMagnetometerAvailable {
             motionManager.magnetometerUpdateInterval = 0.1
-            motionManager.startMagnetometerUpdatesToQueue(NSOperationQueue.mainQueue()) { (magnetometerData, error) in
-                self.setMagneticFieldData(magnetometerData?.magneticField, forSection: .RawMagnetometerData)
-                self.logError(error, forSensor: .Magnetometer)
+            motionManager.startMagnetometerUpdates(to: OperationQueue.main) { (magnetometerData, error) in
+                self.report(magneticField: magnetometerData?.magneticField, inSection: .rawMagnetometerData)
+                self.log(error: error, forSensor: .magnetometer)
             }
         }
     }
@@ -69,14 +69,14 @@ final class MotionInfoViewController: UITableViewController {
     /**
      *  Configure the Device Motion algorithm data callback.
      */
-    private func startDeviceMotionUpdates() {
-        if motionManager.deviceMotionAvailable {
+    fileprivate func startDeviceMotionUpdates() {
+        if motionManager.isDeviceMotionAvailable {
             motionManager.deviceMotionUpdateInterval = 0.1
-            motionManager.startDeviceMotionUpdatesToQueue(NSOperationQueue.mainQueue()) { (deviceMotion, error) in
-                self.setAccelerationData(deviceMotion?.gravity, forSection: .DeviceMotionGravity)
-                self.setAccelerationData(deviceMotion?.userAcceleration, forSection: .DeviceMotionUserAcceleration)
-                self.setRotationRateData(deviceMotion?.rotationRate, forSection: .DeviceMotionRotationRate)
-                self.logError(error, forSensor: .DeviceMotion)
+            motionManager.startDeviceMotionUpdates(to: OperationQueue.main) { (deviceMotion, error) in
+                self.report(acceleration: deviceMotion?.gravity, inSection: .gravity)
+                self.report(acceleration: deviceMotion?.userAcceleration, inSection: .userAcceleration)
+                self.report(rotationRate: deviceMotion?.rotationRate, inSection: .rotationRate)
+                self.log(error: error, forSensor: .deviceMotion)
             }
         }
     }
@@ -87,7 +87,7 @@ final class MotionInfoViewController: UITableViewController {
      - parameter error:  Error value.
      - parameter sensor: `DeviceSensor` that triggered the error.
      */
-    private func logError(error:NSError?, forSensor sensor:DeviceSensor) {
+    fileprivate func log(error: Error?, forSensor sensor: DeviceSensor) {
         guard let error = error else { return }
         
         NSLog("Error reading data from \(sensor.description): \n \(error) \n")

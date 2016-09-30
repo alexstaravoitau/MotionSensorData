@@ -11,32 +11,32 @@ import UIKit
 /**
  Device sensors available on an iOS device.
  
- - `Gyro`:          Gyroscope.
- - `Accelerometer`: Accelerometer.
- - `Magnetormeter`: Magnetormeter.
- - `DeviceMotion`:  A set of iOS SDK algorithms that work with raw sensors data.
+ - `gyro`:          Gyroscope.
+ - `accelerometer`: Accelerometer.
+ - `magnetormeter`: Magnetormeter.
+ - `deviceMotion`:  A set of iOS SDK algorithms that work with raw sensors data.
  */
 internal enum DeviceSensor {
     
     /// Gyroscope
-    case Gyro
+    case gyro
     /// Accelerometer
-    case Accelerometer
+    case accelerometer
     /// Magnetormeter
-    case Magnetometer
+    case magnetometer
     /// A set of iOS SDK algorithms that work with raw sensors data
-    case DeviceMotion
+    case deviceMotion
     
     /// A description of the sensor as a `String`.
     internal var description: String {
         switch self {
-        case Gyro:
+        case .gyro:
             return "Gyroscope"
-        case Accelerometer:
+        case .accelerometer:
             return "Accelerometer"
-        case Magnetometer:
+        case .magnetometer:
             return "Magnetometer"
-        case DeviceMotion:
+        case .deviceMotion:
             return "Device Motion Algorithm"
         }
     }
@@ -46,34 +46,34 @@ internal enum DeviceSensor {
 /**
  Sections of the `UITableView` we use to display sensors' data.
  
- - `RawGyroData`:                     Raw gyroscope data.
- - `RawAccelerometerData`:            Raw accelerometer data.
- - `RawMagnetometerData`:             Raw magnetometer data.
- - `DeviceMotionRotationRate`:        Rotation rate as returned by the `DeviceMotion` algorithms.
- - `DeviceMotionUserAcceleration`:    User acceleration as returned by the `DeviceMotion` algorithms.
- - `DeviceMotionGravity`:             Gravity value as returned by the `DeviceMotion` algorithms.
+ - `rawGyroData`:                     Raw gyroscope data.
+ - `rawAccelerometerData`:            Raw accelerometer data.
+ - `rawMagnetometerData`:             Raw magnetometer data.
+ - `rotationRate`:        Rotation rate as returned by the `DeviceMotion` algorithms.
+ - `userAcceleration`:    User acceleration as returned by the `DeviceMotion` algorithms.
+ - `gravity`:             Gravity value as returned by the `DeviceMotion` algorithms.
  */
 internal enum DataTableSection {
     
     /// Raw gyroscope data.
-    case RawGyroData
+    case rawGyroData
     /// Raw accelerometer data.
-    case RawAccelerometerData
+    case rawAccelerometerData
     /// Raw magnetometer data.
-    case RawMagnetometerData
+    case rawMagnetometerData
     /// Rotation rate as returned by the `DeviceMotion` algorithms.
-    case DeviceMotionRotationRate
+    case rotationRate
     /// User acceleration as returned by the `DeviceMotion` algorithms.
-    case DeviceMotionUserAcceleration
+    case userAcceleration
     /// Gravity value as returned by the `DeviceMotion` algorithms.
-    case DeviceMotionGravity
+    case gravity
     
     /// An `Array` of all sections in the order specified in the storyboard.
-    internal static let allSections = [DeviceMotionUserAcceleration, DeviceMotionGravity, DeviceMotionRotationRate, RawAccelerometerData, RawGyroData, RawMagnetometerData]
+    internal static let allSections = [userAcceleration, gravity, rotationRate, rawAccelerometerData, rawGyroData, rawMagnetometerData]
     
     /// `Int` index of the section in `UITableView`.
     internal var index: Int {
-        return DataTableSection.allSections.indexOf(self) ?? 0
+        return DataTableSection.allSections.index(of: self) ?? 0
     }
     
 }
@@ -95,11 +95,11 @@ internal enum DataTableRow: Int {
     internal var color: UIColor {
         switch self {
         case .axisX:
-            return .redColor()
+            return UIColor.red
         case .axisY:
-            return .greenColor()
+            return UIColor.green
         case .axisZ:
-            return .blueColor()
+            return UIColor.blue
         }
     }
 
