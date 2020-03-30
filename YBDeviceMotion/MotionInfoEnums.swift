@@ -8,15 +8,8 @@
 
 import UIKit
 
-/**
- Device sensors available on an iOS device.
- 
- - `gyro`:          Gyroscope.
- - `accelerometer`: Accelerometer.
- - `magnetormeter`: Magnetormeter.
- - `deviceMotion`:  A set of iOS SDK algorithms that work with raw sensors data.
- */
-internal enum DeviceSensor {
+/// Device sensors available on an iOS device.
+enum DeviceSensor {
     
     /// Gyroscope
     case gyro
@@ -28,7 +21,7 @@ internal enum DeviceSensor {
     case deviceMotion
     
     /// A description of the sensor as a `String`.
-    internal var description: String {
+    var description: String {
         switch self {
         case .gyro:
             return "Gyroscope"
@@ -43,17 +36,8 @@ internal enum DeviceSensor {
     
 }
 
-/**
- Sections of the `UITableView` we use to display sensors' data.
- 
- - `rawGyroData`:                     Raw gyroscope data.
- - `rawAccelerometerData`:            Raw accelerometer data.
- - `rawMagnetometerData`:             Raw magnetometer data.
- - `rotationRate`:        Rotation rate as returned by the `DeviceMotion` algorithms.
- - `userAcceleration`:    User acceleration as returned by the `DeviceMotion` algorithms.
- - `gravity`:             Gravity value as returned by the `DeviceMotion` algorithms.
- */
-internal enum DataTableSection {
+/// Sections of the `UITableView` we use to display sensors' data.
+enum DataTableSection {
     
     /// Raw gyroscope data.
     case rawGyroData
@@ -69,30 +53,24 @@ internal enum DataTableSection {
     case gravity
     
     /// An `Array` of all sections in the order specified in the storyboard.
-    internal static let allSections = [userAcceleration, gravity, rotationRate, rawAccelerometerData, rawGyroData, rawMagnetometerData]
+    static let allSections = [userAcceleration, gravity, rotationRate, rawAccelerometerData, rawGyroData, rawMagnetometerData]
     
-    /// `Int` index of the section in `UITableView`.
-    internal var index: Int {
-        return DataTableSection.allSections.index(of: self) ?? 0
+    /// Index of the section in `UITableView`.
+    var index: Int {
+        return DataTableSection.allSections.firstIndex(of: self) ?? 0
     }
     
 }
 
-/**
- Rows we use for displaying data in `UITableView`.
- 
- - `axisX`: `X` axis value index
- - `axisY`: `Y` axis value index
- - `axisZ`: `Z` axis value index
- */
-internal enum DataTableRow: Int {
+/// Rows we use for displaying data in `UITableView`.
+enum DataTableRow: Int {
     
     case axisX = 0
     case axisY = 1
     case axisZ = 2
     
     /// We are going to assign a color for each axis to display values fluctiation visually.
-    internal var color: UIColor {
+    var color: UIColor {
         switch self {
         case .axisX:
             return UIColor.red
