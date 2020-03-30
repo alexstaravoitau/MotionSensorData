@@ -52,7 +52,7 @@ extension MotionInfoViewController {
      - parameter section:      Section these values need to be applied to.
      */
     internal func report(magneticField: CMMagneticField?, inSection section: DataTableSection) {
-        let units = "mT"
+        let units = "μT"
         
         display(value: magneticField?.x, forRow: .axisX, inSection: section, units: units)
         display(value: magneticField?.y, forRow: .axisY, inSection: section, units: units)
